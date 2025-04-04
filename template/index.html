@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Investment</title>
+</head>
+<body>
+    <h1>Crypto Investment</h1>
+    <p>Click the button below to invest in cryptocurrency:</p>
+    <button id="investButton">Invest Now</button>
+
+    <script>
+        document.getElementById('investButton').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/invest', { method: 'POST' });
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+    <h1>Recent prices</h1>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        function fetchUpdatedPrices() {
+            $.getJSON("/show_dataframe", function(data) {
+                // Update the displayed prices on the page
+                // Example: Assuming you have a div with ID "prices"
+                var pricesDiv = document.getElementById("prices");
+                pricesDiv.innerHTML = JSON.stringify(data);
+            });
+        }
+
+        // Fetch updated prices every 15 minutes
+        setInterval(fetchUpdatedPrices, 30 * 1000);
+    });
+    </script>
+    <h1>DataFrame Elements</h1>
+    <div id="prices">
+        <!-- Initial prices will be displayed here -->
+    </div>
+
+</body>
+</html>
